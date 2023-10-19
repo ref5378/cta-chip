@@ -1,88 +1,50 @@
 import { LitElement, html, css } from 'lit';
 
-const logo = new URL('../assets/open-wc-logo.svg', import.meta.url).href;
-
-class CtaChip extends LitElement {
-  static properties = {
-    header: { type: String },
+export class PolarisChip extends LitElement {
+  static get properties() {
+    return {
+      name: { type: String },
+      link: { type: String },
+      active: { type: Boolean, reflect: true },
+    };
   }
 
-  static styles = css`
-    :host {
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-start;
-      font-size: calc(10px + 2vmin);
-      color: #1a2b42;
-      max-width: 960px;
-      margin: 0 auto;
-      text-align: center;
-      background-color: var(--cta-chip-background-color);
-    }
-
-    main {
-      flex-grow: 1;
-    }
-
-    .logo {
-      margin-top: 36px;
-      animation: app-logo-spin infinite 20s linear;
-    }
-
-    @keyframes app-logo-spin {
-      from {
-        transform: rotate(0deg);
+  static get styles() {
+    return css`
+      :host {
+        display: inline-block;
+        margin: 0 12px 12px 0;
       }
-      to {
-        transform: rotate(360deg);
+
+      .link:focus,
+      .link:hover,
+      :host([active]) .link{
+        background-color: #e4e5e7;
+        border: 2px solid #e4e5e6;
+        border-radius: 2px;
+        color: #005fa9;
+        cursor: pointer;
+        text-decoration: underline;
       }
-    }
 
-    .app-footer {
-      font-size: calc(12px + 0.5vmin);
-      align-items: center;
-    }
-
-    .app-footer a {
-      margin-left: 5px;
-    }
-  `;
+      .link {
+        font-weight: bold;
+        text-decoration: none;
+        padding: 8px 4px;
+        border: 2px solid #444;
+        color: #444;
+        font-size: 16px;
+      }
+    `;
+  }
 
   constructor() {
     super();
-    this.header = 'My app';
+    this.name = 'Football';
+    this.link = "https://www.psu.edu/news/research/";
   }
 
   render() {
-    return html`
-      <main>
-        <div class="logo"><img alt="open-wc logo" src=${logo} /></div>
-        <h1>${this.header}</h1>
-
-        <p>Edit <code>src/CtaChip.js</code> and save to reload.</p>
-        <a
-          class="app-link"
-          href="https://open-wc.org/guides/developing-components/code-examples/"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Code examples
-        </a>
-      </main>
-
-      <p class="app-footer">
-        🚽 Made with love by
-        <a
-          target="_blank"
-          rel="noopener noreferrer"
-          href="https://github.com/open-wc"
-          >open-wc</a
-        >.
-      </p>
-    `;
+    return html`<a class="link" href="${this.link}"><slot>${this.name}</slot></a>`;
   }
 }
-
-customElements.define('cta-chip', CtaChip);
